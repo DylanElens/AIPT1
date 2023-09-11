@@ -1,7 +1,6 @@
 ## Docker commands
-compile:
-	@javac -d . src/**/*.java
-
+build:
+	@docker build -t connect-4 .
 run:
-	@java -cp . NRow.App
+	@docker run -it connect-4:latest
 
