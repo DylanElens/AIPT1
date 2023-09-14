@@ -10,7 +10,24 @@ public class MinMaxPlayer extends PlayerController {
         super(playerId, gameN, heuristic);
         this.depth = depth;
         //You can add functionality which runs when the player is first created (before the game starts)
+        
     }
+
+
+// function minimax(node, depth, maximizingPlayer) is
+//     if depth = 0 or node is a terminal node then
+//         return the heuristic value of node
+//     if maximizingPlayer then
+//         value := −∞
+//         for each child of node do
+//             value := max(value, minimax(child, depth − 1, FALSE))
+//         return value
+//     else (* minimizing player *)
+//         value := +∞
+//         for each child of node do
+//             value := min(value, minimax(child, depth − 1, TRUE))
+//         return value
+
 
     /**
    * Implement this method yourself!
@@ -19,33 +36,29 @@ public class MinMaxPlayer extends PlayerController {
    */
     @Override
     public int makeMove(Board board) {
-        // TODO: implement minmax player!
-        // HINT: use the functions on the 'board' object to produce a new board given a specific move
-        // HINT: use the functions on the 'heuristic' object to produce evaluations for the different board states!
-        
-        // Example: 
-        int maxValue = Integer.MIN_VALUE;
-        int maxMove = 0;
-        for(int i = 0; i < board.width; i++) { //for each of the possible moves
-            if(board.isValid(i)) { //if the move is valid
-                Board newBoard = board.getNewBoard(i, playerId); // Get a new board resulting from that move
-                int value = heuristic.evaluateBoard(playerId, newBoard); //evaluate that new board to get a heuristic value from it
-                if(value > maxValue) {
-                    maxMove = i;
-                }
-            }
+
+        //make some nodes
+        return minimax(board, depth, true);
+    }
+
+    private int minimax(Node node, int depth, boolean maximizingPlayer) {
+        if (depth == 0 || node.isTerminal()) {
+            return node.getScore();
         }
-        // This returns the same as:
-        heuristic.getBestAction(playerId, board); // Very useful helper function!
-        
 
-        /*
-        This is obviously not enough (this is depth 1)
-        Your assignment is to create a data structure (tree) to store the gameboards such that you can evaluate a higher depths.
-        Then, use the minmax algorithm to search through this tree to find the best move/action to take!
-        */
-
-        return maxMove;
+        if (maximizingPlayer) {
+            int value = Integer.MIN_VALUE;
+            for (Node child : node.getChildren()) {
+                value = Math.max(value, minimax(child, depth - 1, false));
+            }
+            return value;
+        } else {
+            int value = Integer.MAX_VALUE;
+            for (Node child : node.getChildren()) {
+                value = Math.min(value, minimax(child, depth - 1, true));
+            }
+            return value;
+        }
     }
     
 }

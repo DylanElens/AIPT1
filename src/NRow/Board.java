@@ -22,7 +22,7 @@ public class Board {
    * Constructor for cloning a board based on another board class
    * @param other
    */
-  public Board(Board other) {
+  public Board(Board other) { //TODO: why?
     this.width = other.width;
     this.height = other.height;
     this.boardState = other.getBoardState();
